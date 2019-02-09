@@ -11,8 +11,4 @@ Five blocks to use:
 4) While/Endwhile
 5) For/Endfor
 
-Animation of how program would run and time of animation
-
-Skybox with four variation of textures.
-
-Customizable number of loop repetitions and conditions of "if" transition.
+Animation of how program would run and time of animation. Skybox with four variation of textures. Customizable number of loop repetitions and conditions of "if" transition.
