@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Imaging;
 
-namespace OpenTKFormsFinal
+namespace OpenGLOpenTKForms
 {
     class Textures
     {
@@ -12,7 +12,7 @@ namespace OpenTKFormsFinal
 
         public int Current { get; set; }
 
-        public int textureStone;
+        public int textureMain;
         public int textureTrue;
         public int textureFalse;
         public int textureAnimation;
@@ -20,8 +20,8 @@ namespace OpenTKFormsFinal
 
         private Textures()
         {
-            // Загрузка тесктур и скайбоксов
-            textureStone = Load(@"Texture\stone.jpg");
+            // Loading textures and skyboxes
+            textureMain = Load(@"Texture\stone.jpg");
             textureTrue = Load(@"Texture\grass.png");
             textureFalse = Load(@"Texture\stone.jpg");
             textureAnimation = Load(@"Texture\sand.jpg");

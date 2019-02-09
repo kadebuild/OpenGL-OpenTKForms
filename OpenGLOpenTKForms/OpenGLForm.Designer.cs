@@ -1,4 +1,4 @@
-﻿namespace OpenTKFormsFinal
+﻿namespace OpenGLOpenTKForms
 {
     partial class OpenGLForm
     {
@@ -312,7 +312,7 @@
             this.Controls.Add(this.ifButton);
             this.Controls.Add(this.glControl);
             this.Name = "OpenGLForm";
-            this.Text = "OpenGL Forms";
+            this.Text = "OpenGL Form";
             ((System.ComponentModel.ISupportInitialize)(this.cycleRepeatForm)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.animationTimeForm)).EndInit();
             this.ResumeLayout(false);

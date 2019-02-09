@@ -1,26 +1,20 @@
-﻿using OpenTK;
-using OpenTK.Graphics.OpenGL;
+﻿using OpenTK.Graphics.OpenGL;
 
-namespace OpenTKFormsFinal
+namespace OpenGLOpenTKForms
 {
-    class EndForBlock : Blocks
+    class ForBlock : Blocks
     {
-        public override void Draw(int i)
+        protected override void StartDraw()
         {
-            base.Draw(i);
-            GL.Rotate(180, Vector3.UnitZ);
+            base.StartDraw();
             DrawFor();
             GL.PopMatrix();
             GL.PushMatrix();
             GL.Translate(5.0f * IfLevel, -CurrentCount * 3, 0);
-            CurrentCount++;
-            if ((List.Count - i) > 1)
+            if ((List.Count - CurrentCount++) > 1)
             {
-                GL.PopMatrix();
-                GL.PushMatrix();
-                GL.Translate(5.0f * IfLevel, -CurrentCount * 3f, 0);
-                GL.Translate(0, 1f, 0);
-                DrawConnectLine(Textures.Instance.textureTrue);
+                GL.Translate(0, -2, 0);
+                DrawConnectionLine(Textures.Instance.textureTrue);
             }
         }
 
@@ -30,7 +24,7 @@ namespace OpenTKFormsFinal
             GL.BindTexture(TextureTarget.Texture2D, Textures.Instance.Current);
             GL.Begin(PrimitiveType.Quads);
 
-            //нижняя грань
+            // Bottom side
             GL.TexCoord2(-1.0f, -1.0f * multiplyFigure);
             GL.Vertex3(-1.0f * multiplyFigure, -1.0f, -1.0f);
             GL.TexCoord2(-1.0f, 1.0f * multiplyFigure);
@@ -40,7 +34,7 @@ namespace OpenTKFormsFinal
             GL.TexCoord2(1.0f, -1.0f * multiplyFigure);
             GL.Vertex3(-1.0f * multiplyFigure, -1.0f, 1.0f);
 
-            //левая грань
+            // Left side
             GL.TexCoord2(-1.0f, -1.0f);
             GL.Vertex3(-1.0f * multiplyFigure, -1.0f, -1.0f);
             GL.TexCoord2(-1.0f, 1.0f);
@@ -50,7 +44,7 @@ namespace OpenTKFormsFinal
             GL.TexCoord2(-1.0f, 1.0f);
             GL.Vertex3(-1.0f * multiplyFigure, 0.5f, -1.0f);
 
-            //верхняя грань
+            // Up side
             GL.TexCoord2(-1.0f, -1.0f * multiplyFigure);
             GL.Vertex3(-0.5f * multiplyFigure, 1.0f, -1.0f);
             GL.TexCoord2(1.0f, -1.0f * multiplyFigure);
@@ -60,7 +54,7 @@ namespace OpenTKFormsFinal
             GL.TexCoord2(-1.0f, 1.0f * multiplyFigure);
             GL.Vertex3(0.5f * multiplyFigure, 1.0f, -1.0f);
 
-            // правая грань
+            // Right side
             GL.TexCoord2(-1.0f, -1.0f);
             GL.Vertex3(1.0f * multiplyFigure, -1.0f, -1.0f);
             GL.TexCoord2(1.0f, -1.0f);
@@ -70,7 +64,7 @@ namespace OpenTKFormsFinal
             GL.TexCoord2(-1.0f, 1.0f);
             GL.Vertex3(1.0f * multiplyFigure, -1.0f, 1.0f);
 
-            // левая верхняя грань
+            // Left upper side
             GL.TexCoord2(-1.0f, -1.0f);
             GL.Vertex3(-0.5f * multiplyFigure, 1.0f, -1.0f);
             GL.TexCoord2(-1.0f, 1.0f);
@@ -80,7 +74,7 @@ namespace OpenTKFormsFinal
             GL.TexCoord2(-1.0f, 1.0f);
             GL.Vertex3(-1.0f * multiplyFigure, 0.5f, -1.0f);
 
-            // правая верхняя грань
+            // Right upper side
             GL.TexCoord2(-1.0f, -1.0f);
             GL.Vertex3(0.5f * multiplyFigure, 1.0f, -1.0f);
             GL.TexCoord2(1.0f, -1.0f);
@@ -93,7 +87,7 @@ namespace OpenTKFormsFinal
             GL.End();
 
             GL.Begin(PrimitiveType.Polygon);
-            //передняя грань
+            // Forward side
             GL.TexCoord2(-1.0f * multiplyFigure, -1.0f);
             GL.Vertex3(-1.0f * multiplyFigure, -1.0f, 1.0f);
             GL.TexCoord2(1.0f * multiplyFigure, -1.0f);
@@ -109,7 +103,7 @@ namespace OpenTKFormsFinal
             GL.End();
 
             GL.Begin(PrimitiveType.Polygon);
-            // задняя грань
+            // Back side
             GL.TexCoord2(-1.0f * multiplyFigure, -1.0f);
             GL.Vertex3(-1.0f * multiplyFigure, -1.0f, -1.0f);
             GL.TexCoord2(-1.0f * multiplyFigure, 1.0f);
@@ -129,7 +123,7 @@ namespace OpenTKFormsFinal
 
         public override string ToString()
         {
-            return "End For";
+            return "For";
         }
     }
 }

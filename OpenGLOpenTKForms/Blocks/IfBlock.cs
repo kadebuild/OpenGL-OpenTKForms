@@ -1,13 +1,13 @@
 ﻿using OpenTK;
 using OpenTK.Graphics.OpenGL;
 
-namespace OpenTKFormsFinal
+namespace OpenGLOpenTKForms
 {
     class IfBlock : Blocks
     {
-        public override void Draw(int i)
+        protected override void StartDraw()
         {
-            base.Draw(i);
+            base.StartDraw();
             DrawIf();
             IfLevel++;
             GL.PopMatrix();
@@ -15,15 +15,15 @@ namespace OpenTKFormsFinal
             GL.Translate(5.0f * IfLevel, -CurrentCount * 3, 0);
             CurrentCount++;
             GL.Translate(0f, -1.1f, 0);
-            DrawConnectLine(Textures.Instance.textureTrue);
+            DrawConnectionLine(Textures.Instance.textureTrue);
             GL.PopMatrix();
             GL.PushMatrix();
             GL.Translate(5.0f * IfLevel, -CurrentCount * 3, 0);
             GL.Rotate(90, Vector3.UnitZ);
             GL.Translate(3f, 1.8f, 0);
-            DrawConnectLine(Textures.Instance.textureTrue);
+            DrawConnectionLine(Textures.Instance.textureTrue);
             GL.Translate(0f, -1.05f, 0f);
-            DrawConnectLine(Textures.Instance.textureTrue);
+            DrawConnectionLine(Textures.Instance.textureTrue);
         }
 
         private void DrawIf()
@@ -33,7 +33,7 @@ namespace OpenTKFormsFinal
 
             GL.Begin(PrimitiveType.Quads);
 
-            // задняя грань
+            // Back side
             GL.TexCoord2(-1.0f, -1.0f);
             GL.Vertex3(-1.0f * multiplyFigure, 0f, -1.0f);
             GL.TexCoord2(1.0f, -1.0f);
@@ -43,7 +43,7 @@ namespace OpenTKFormsFinal
             GL.TexCoord2(0f, 1.0f);
             GL.Vertex3(0f * multiplyFigure, -1.0f, -1.0f);
 
-            //нижняя грань
+            // Bottom side
             GL.TexCoord2(-1.0f, -1.0f);
             GL.Vertex3(-1.0f * multiplyFigure, 0f, -1.0f);
             GL.TexCoord2(-1.0f, 1.0f);
@@ -53,7 +53,7 @@ namespace OpenTKFormsFinal
             GL.TexCoord2(-1.0f, 1.0f);
             GL.Vertex3(-1.0f * multiplyFigure, 0f, 1.0f);
 
-            //левая грань
+            // Left side
             GL.TexCoord2(-1.0f, -1.0f);
             GL.Vertex3(-1.0f * multiplyFigure, 0f, -1.0f);
             GL.TexCoord2(-1.0f, 1.0f);
@@ -63,7 +63,7 @@ namespace OpenTKFormsFinal
             GL.TexCoord2(-1.0f, 1.0f);
             GL.Vertex3(0.0f * multiplyFigure, 1.0f, -1.0f);
 
-            //передняя грань
+            // Forward side
             GL.TexCoord2(-1.0f, -1.0f);
             GL.Vertex3(-1.0f * multiplyFigure, 0f, 1.0f);
             GL.TexCoord2(1.0f, -1.0f);
@@ -73,7 +73,7 @@ namespace OpenTKFormsFinal
             GL.TexCoord2(0.0f, 1.0f);
             GL.Vertex3(0.0f * multiplyFigure, 1.0f, 1.0f);
 
-            //верхняя грань
+            // Up side
             GL.TexCoord2(-1.0f, -1.0f);
             GL.Vertex3(0.0f * multiplyFigure, 1.0f, -1.0f);
             GL.TexCoord2(1.0f, -1.0f);
@@ -83,7 +83,7 @@ namespace OpenTKFormsFinal
             GL.TexCoord2(-1.0f, 1.0f);
             GL.Vertex3(1.0f * multiplyFigure, 0f, -1.0f);
 
-            // правая грань
+            // Right side
             GL.TexCoord2(-1.0f, -1.0f);
             GL.Vertex3(0f * multiplyFigure, -1.0f, -1.0f);
             GL.TexCoord2(1.0f, -1.0f);

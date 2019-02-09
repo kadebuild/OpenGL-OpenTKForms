@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace OpenTKFormsFinal
+namespace OpenGLOpenTKForms
 {
     public class Blocks
     {
@@ -19,23 +19,41 @@ namespace OpenTKFormsFinal
 
         public static List<Blocks> List = new List<Blocks>();
 
-        public virtual void Draw(int i)
+        // Prepare and starts drawing all blocks from list
+        // All drawing divided into three parts: 
+        // 1 - StartDraw (Blocks class) 2 - StartDraw (Child class) 3 - EndDraw (Blocks class)
+        public static void Draw()
+        {
+            GL.Translate(0, List.Count, 0);
+
+            CurrentCount = 0;
+            IfLevel = 0;
+            WhileLevel = 0;
+
+            foreach (Blocks block in List)
+            {
+                block.StartDraw();
+                block.EndDraw();
+            }
+        }
+
+        protected virtual void StartDraw()
         {
             GL.PushMatrix();
             GL.Translate(5.0f * IfLevel, -CurrentCount * 3, 0);
-            Textures.Instance.Current = Textures.Instance.textureStone;
-            if (blockWorkAnimation && currentAnimatedBlock == i)
+            Textures.Instance.Current = Textures.Instance.textureMain;
+            if (blockWorkAnimation && currentAnimatedBlock == CurrentCount)
             {
                 if (this is EndIfBlock || this is EndWhileBlock)
                 {
                     NextBlockForAnimation();
                     return;
                 }
-                GL.Scale(1f + 0.25f * (float)Math.Sin(OpenGLForm.sw.Elapsed.TotalMilliseconds / 500), 
-                         1f + 0.25f * (float)Math.Sin(OpenGLForm.sw.Elapsed.TotalMilliseconds / 500), 
-                         1f + 0.25f * (float)Math.Sin(OpenGLForm.sw.Elapsed.TotalMilliseconds / 500));
+                GL.Scale(1f + 0.25f * (float)Math.Sin(AnimationTimer.Instance.Elapsed.TotalMilliseconds / 500), 
+                         1f + 0.25f * (float)Math.Sin(AnimationTimer.Instance.Elapsed.TotalMilliseconds / 500), 
+                         1f + 0.25f * (float)Math.Sin(AnimationTimer.Instance.Elapsed.TotalMilliseconds / 500));
                 Textures.Instance.Current = Textures.Instance.textureAnimation;
-                if (OpenGLForm.sw.Elapsed.TotalMilliseconds >= OpenGLForm.animationTime)
+                if (AnimationTimer.Instance.Elapsed.TotalMilliseconds >= OpenGLForm.animationTime)
                     NextBlockForAnimation();
             }
         }
@@ -45,11 +63,11 @@ namespace OpenTKFormsFinal
             GL.PopMatrix();
             if (IfLevel > 0)
             {
-                for (int j = 0; j < IfLevel; j++)
+                for (int i = 0; i < IfLevel; i++)
                 {
                     GL.PushMatrix();
-                    GL.Translate(5.0f * j, -CurrentCount * 3f, 0);
-                    DrawConnectLine(Textures.Instance.textureFalse);
+                    GL.Translate(5.0f * i, -CurrentCount * 3f, 0);
+                    DrawConnectionLine(Textures.Instance.textureFalse);
                     GL.PopMatrix();
                 }
             }
@@ -57,28 +75,14 @@ namespace OpenTKFormsFinal
             {
                 GL.PushMatrix();
                 GL.Translate(4.0f * WhileLevel + 1.0f * (IfLevel == WhileLevel ? 0 : IfLevel), -CurrentCount * 3f, 0);
-                DrawConnectLine(Textures.Instance.textureFalse);
+                DrawConnectionLine(Textures.Instance.textureFalse);
                 GL.Translate(-8.0f, 1f, 0);
-                DrawConnectLine(Textures.Instance.textureTrue);
+                DrawConnectionLine(Textures.Instance.textureTrue);
                 GL.PopMatrix();
             }
         }
 
-        public static void StartDrawing()
-        {
-            GL.Translate(0, List.Count, 0);
-
-            CurrentCount = 0;
-            IfLevel = 0;
-            WhileLevel = 0;
-
-            for (int i = 0; i < List.Count; i++)
-            {
-                List[i].Draw(i);
-                List[i].EndDraw();
-            }
-        }
-
+        // Start animating blocks
         public static void Animate()
         {
             blockWorkAnimation = true;
@@ -93,14 +97,15 @@ namespace OpenTKFormsFinal
             WhileLevel = 0;
         }
 
+        // Calculating next block which needed to animate
+        // Animation repeat based on number of loop iterations
         private static void NextBlockForAnimation()
         {
-            OpenGLForm.sw.Stop();
+            AnimationTimer.Instance.Stop();
             currentAnimatedBlock++;
             if (List.Count > currentAnimatedBlock)
             {
-                OpenGLForm.sw.Reset();
-                OpenGLForm.sw.Start();
+                AnimationTimer.Instance.Restart();
                 if ((List[currentAnimatedBlock] is ForBlock || List[currentAnimatedBlock] is WhileBlock) && !cycleIndex.Contains(currentAnimatedBlock))
                 {
                     cycleIndex.Add(currentAnimatedBlock);
@@ -143,12 +148,12 @@ namespace OpenTKFormsFinal
             }
         }
 
-        protected void DrawConnectLine(int texture)
+        protected void DrawConnectionLine(int texture)
         {
             GL.Enable(EnableCap.Texture2D);
             GL.BindTexture(TextureTarget.Texture2D, texture);
             GL.Begin(PrimitiveType.Quads);
-            // задняя грань
+            // Back side
             GL.TexCoord2(-0.25f, -1.0f);
             GL.Vertex3(-0.25f, -1.0f, -0.25f);
             GL.TexCoord2(-0.25f, 1.0f);
@@ -158,7 +163,7 @@ namespace OpenTKFormsFinal
             GL.TexCoord2(0.25f, -1.0f);
             GL.Vertex3(0.25f, -1.0f, -0.25f);
 
-            //нижняя грань
+            // Bottom side
             GL.TexCoord2(-0.25f, -1.0f);
             GL.Vertex3(-0.25f, -1.0f, -0.25f);
             GL.TexCoord2(-0.25f, 1.0f);
@@ -168,7 +173,7 @@ namespace OpenTKFormsFinal
             GL.TexCoord2(0.25f, -1.0f);
             GL.Vertex3(-0.25f, -1.0f, 0.25f);
 
-            //левая грань
+            // Left side
             GL.TexCoord2(-0.25f, -1.0f);
             GL.Vertex3(-0.25f, -1.0f, -0.25f);
             GL.TexCoord2(0.25f, -1.0f);
@@ -178,7 +183,7 @@ namespace OpenTKFormsFinal
             GL.TexCoord2(-0.25f, 1.0f);
             GL.Vertex3(-0.25f, 1.0f, -0.25f);
 
-            //передняя грань
+            // Forward side
             GL.TexCoord2(-0.25f, -1.0f);
             GL.Vertex3(-0.25f, -1.0f, 0.25f);
             GL.TexCoord2(0.25f, -1.0f);
@@ -188,7 +193,7 @@ namespace OpenTKFormsFinal
             GL.TexCoord2(-0.25f, 1.0f);
             GL.Vertex3(-0.25f, 1.0f, 0.25f);
 
-            //верхняя грань
+            // Up side
             GL.TexCoord2(-0.25f, -1.0f);
             GL.Vertex3(-0.25f, 1.0f, -0.25f);
             GL.TexCoord2(-0.25f, 1.0f);
@@ -198,7 +203,7 @@ namespace OpenTKFormsFinal
             GL.TexCoord2(0.25f, -1.0f);
             GL.Vertex3(0.25f, 1.0f, -0.25f);
 
-            // правая грань
+            // Right side
             GL.TexCoord2(-0.25f, -1.0f);
             GL.Vertex3(0.25f, -1.0f, -0.25f);
             GL.TexCoord2(-0.25f, 1.0f);

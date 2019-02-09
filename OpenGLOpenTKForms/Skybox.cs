@@ -1,6 +1,6 @@
 ﻿using OpenTK.Graphics.OpenGL;
 
-namespace OpenTKFormsFinal
+namespace OpenGLOpenTKForms
 {
     class Skybox
     {
@@ -25,19 +25,19 @@ namespace OpenTKFormsFinal
 
         private void CreateSkyBox(float x, float y, float z, float width, float height, float length)
         {
-            // Так как мы хотим, чтобы скайбокс был с центром в x-y-z, мы производим
-            // небольшие рассчеты. Просто изменяем X,Y и Z на нужные.
+            // Since we want the skybox to be centered at x-y-z, we make small calculations. 
+            // Simply change the X, Y and Z to the desired.
 
-            // Это центрирует скайбокс на X,Y,Z
+            // This centers the skybox at X,Y,Z
             x = x - width / 2;
             y = y - height / 2;
             z = z - length / 2;
 
-            // забиндим заднюю текстуру на заднюю сторону
+            // Binding the back textures to the back side
             GL.BindTexture(TextureTarget.Texture2D, Textures.Instance.skyBoxTexture[0 + skyboxIndex]);
             GL.Begin(PrimitiveType.Quads);
 
-            // Установим текстурные координаты и вершины ЗАДНЕЙ стороны
+            // Set texture coordinates and vertices of the rear side
             GL.TexCoord2(1.0f, 0.0f); GL.Vertex3(x + width, y, z);
             GL.TexCoord2(1.0f, 1.0f); GL.Vertex3(x + width, y + height, z);
             GL.TexCoord2(0.0f, 1.0f); GL.Vertex3(x, y + height, z);
@@ -45,39 +45,39 @@ namespace OpenTKFormsFinal
 
             GL.End();
 
-            // Биндим ПЕРЕДНЮЮ текстуру на ПЕРЕДНЮЮ сторону бокса
+            // Binding the forward texture to the front side of the box
             GL.BindTexture(TextureTarget.Texture2D, Textures.Instance.skyBoxTexture[1 + skyboxIndex]);
 
-            // Начинаем рисовать сторону
+            // Start drawing side
             GL.Begin(PrimitiveType.Quads);
 
-            // Установим текстурные координаты и вершины ПЕРЕДНЕЙ стороны
+            // Set the texture coordinates and vertices of the forward side
             GL.TexCoord2(1.0f, 0.0f); GL.Vertex3(x, y, z + length);
             GL.TexCoord2(1.0f, 1.0f); GL.Vertex3(x, y + height, z + length);
             GL.TexCoord2(0.0f, 1.0f); GL.Vertex3(x + width, y + height, z + length);
             GL.TexCoord2(0.0f, 0.0f); GL.Vertex3(x + width, y, z + length);
             GL.End();
 
-            // Биндим НИЖНЮЮ текстуру на НИЖНЮЮ сторону бокса
+            // Binding the bottom texture to the bottom side of the box
             GL.BindTexture(TextureTarget.Texture2D, Textures.Instance.skyBoxTexture[2 + skyboxIndex]);
 
-            // Начинаем рисовать сторону
+            // Start drawing side
             GL.Begin(PrimitiveType.Quads);
 
-            // Установим текстурные координаты и вершины НИЖНЕЙ стороны
+            // Set the texture coordinates and vertices of the bottom side
             GL.TexCoord2(1.0f, 0.0f); GL.Vertex3(x, y, z);
             GL.TexCoord2(1.0f, 1.0f); GL.Vertex3(x, y, z + length);
             GL.TexCoord2(0.0f, 1.0f); GL.Vertex3(x + width, y, z + length);
             GL.TexCoord2(0.0f, 0.0f); GL.Vertex3(x + width, y, z);
             GL.End();
 
-            // Биндим ВЕРХНЮЮ текстуру на ВЕРХНЮЮ сторону бокса
+            // Binding the upper texture to the upper side of the box
             GL.BindTexture(TextureTarget.Texture2D, Textures.Instance.skyBoxTexture[3 + skyboxIndex]);
 
-            // Начинаем рисовать сторону
+            // Start drawing side
             GL.Begin(PrimitiveType.Quads);
 
-            // Установим текстурные координаты и вершины ВЕРХНЕЙ стороны
+            // Set the texture coordinates and vertices of the upper side
             GL.TexCoord2(0.0f, 1.0f); GL.Vertex3(x + width, y + height, z);
             GL.TexCoord2(0.0f, 0.0f); GL.Vertex3(x + width, y + height, z + length);
             GL.TexCoord2(1.0f, 0.0f); GL.Vertex3(x, y + height, z + length);
@@ -85,13 +85,13 @@ namespace OpenTKFormsFinal
 
             GL.End();
 
-            // Биндим ЛЕВУЮ текстуру на ЛЕВУЮ сторону бокса
+            // Binding the left texture to the left side of the box
             GL.BindTexture(TextureTarget.Texture2D, Textures.Instance.skyBoxTexture[4 + skyboxIndex]);
 
-            // Начинаем рисовать сторону
+            // Start drawing side
             GL.Begin(PrimitiveType.Quads);
 
-            // Установим текстурные координаты и вершины ЛЕВОЙ стороны
+            // Set the texture coordinates and vertices of the left side
             GL.TexCoord2(1.0f, 1.0f); GL.Vertex3(x, y + height, z);
             GL.TexCoord2(0.0f, 1.0f); GL.Vertex3(x, y + height, z + length);
             GL.TexCoord2(0.0f, 0.0f); GL.Vertex3(x, y, z + length);
@@ -99,13 +99,13 @@ namespace OpenTKFormsFinal
 
             GL.End();
 
-            // Биндим ПРАВУЮ текстуру на ПРАВУЮ сторону бокса
+            // Binding the right texture to the right side of the box
             GL.BindTexture(TextureTarget.Texture2D, Textures.Instance.skyBoxTexture[5 + skyboxIndex]);
 
-            // Начинаем рисовать сторону
+            // Start drawing side
             GL.Begin(PrimitiveType.Quads);
 
-            // Установим текстурные координаты и вершины ПРАВОЙ стороны
+            // Set the texture coordinates and vertices of the right side
             GL.TexCoord2(0.0f, 0.0f); GL.Vertex3(x + width, y, z);
             GL.TexCoord2(1.0f, 0.0f); GL.Vertex3(x + width, y, z + length);
             GL.TexCoord2(1.0f, 1.0f); GL.Vertex3(x + width, y + height, z + length);

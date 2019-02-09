@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
 
-namespace OpenTKFormsFinal
+namespace OpenGLOpenTKForms
 {
     static class Program
     {

@@ -9,13 +9,11 @@ using System.Drawing.Imaging;
 using System.Linq;
 using System.Windows.Forms;
 
-namespace OpenTKFormsFinal
+namespace OpenGLOpenTKForms
 {
     public partial class OpenGLForm : Form
     {
         bool loaded = false;
-        // Timer for animation
-        public static Stopwatch sw = new Stopwatch();
         // Mouse setup
         float cameraRotate = 0f;
         float cameraUp = 0f;
@@ -87,7 +85,6 @@ namespace OpenTKFormsFinal
 
             // Call the screen "resize" to make sure that the Viewport and projection matrix were set correctly
             glControl_Resize(glControl, EventArgs.Empty);
-            sw.Start();
             FillBlockListForm();
         }
 
@@ -244,7 +241,7 @@ namespace OpenTKFormsFinal
             Matrix4 mv = Matrix4.LookAt(new Vector3(cameraX, cameraY, cameraZ), new Vector3(mouseX, mouseY, 0f), Vector3.UnitY);
             GL.LoadMatrix(ref mv);
 
-            Blocks.StartDrawing();
+            Blocks.Draw();
 
             Skybox.Instance.Draw();
 
